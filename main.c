@@ -11,24 +11,23 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	MSG msg;	  // Current message
 
 	// Register window class
-	wc.style		 = CS_HREDRAW | CS_VREDRAW;
+	wc.style		 = 0; // No paint on window resize
 	wc.cbClsExtra	 = 0;
 	wc.cbWndExtra	 = 0;
-	wc.lpszClassName = L"Window";
+	wc.lpszClassName = L"GameWindow";
 	wc.hInstance	 = hInstance;
-	wc.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
+	wc.hbrBackground = NULL; // No background brush
 	wc.lpszMenuName	 = NULL;
 	wc.lpfnWndProc	 = WndProc;
-	wc.hCursor		 = LoadCursor(NULL, IDC_ARROW);
-	wc.hIcon		 = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hCursor		 = LoadCursor(NULL, IDC_ARROW); // Default cursor
+	wc.hIcon		 = LoadIcon(NULL, IDI_APPLICATION); // Default icon
 	RegisterClassW(&wc);
 
 	// Create the window
 	hwnd = CreateWindowW(wc.lpszClassName, L"Block Game",
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 350, 250,
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 350, 250, // Corner, size
 		NULL, NULL, hInstance, NULL);
-	ShowWindow(hwnd, nCmdShow);
-	UpdateWindow(hwnd);
+	ShowWindow(hwnd, nCmdShow); // Respects shortcut run settings
 
 	// Message loop
 	while (GetMessage(&msg, NULL, 0, 0)) {

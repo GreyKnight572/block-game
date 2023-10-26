@@ -1,9 +1,7 @@
 #include <stdio.h>
+#include <windows.h>
 
-int main(int argc, char **argv) {
-	// Print all arguments passed from CLI
-	for(int i = 0; i < argc; i++) {
-		printf("%i: %s\n", i, argv[i]);
-	}
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+	printf("Arguments: %s\n", lpCmdLine);
 	return 0;
 }

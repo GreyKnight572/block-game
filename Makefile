@@ -1,5 +1,5 @@
-game.exe: main.c
+game: main.c
 	gcc -o game.exe -municode main.c
 
-run: game.exe
+run: game
 	./game.exe

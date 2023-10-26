@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include <windows.h>
+#include <wchar.h>
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-	printf("Arguments: %s\n", lpCmdLine);
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
+	wprintf(L"Arguments: %ls\n", pCmdLine);
 	return 0;
 }

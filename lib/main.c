@@ -35,15 +35,23 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, nCmdShow); // Respects shortcut run settings
 
-	// Message loop
-	while (GetMessage(&msg, NULL, 0, 0)) {
+	// Main loop
+	while (TRUE) {
 
-		// Dispatch message to window procedure
-		DispatchMessage(&msg);
+		// Message loop
+		while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
+
+			// Check for quit message
+			if (msg.message == WM_QUIT) {
+
+				// Set application exit code and quit
+				return msg.wParam;
+			}
+
+			// Dispatch message to window procedure
+			DispatchMessage(&msg);
+		}
 	}
-
-	// Set application exit code
-	return msg.wParam;
 }
 
 // Window procedure

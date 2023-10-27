@@ -1,7 +1,7 @@
 VPATH=lib
 
 game: main.c
-	gcc -I"$(VPATH)" -g -o game.exe -municode $(VPATH)/main.c
+	gcc -I"$(VPATH)" -g -o Physio.exe -municode $(VPATH)/main.c
 
 run: game
-	./game.exe
+	./Physio.exe

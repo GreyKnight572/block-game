@@ -30,7 +30,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	int szY = 768;
 	int cnX = (scX - szX) / 2;
 	int cnY = (scY - szY) / 2;
-	hwnd = CreateWindowW(wc.lpszClassName, L"Block Game",
+	hwnd = CreateWindowW(wc.lpszClassName, L"Physio",
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE, cnX, cnY, szX, szY, // Corner, size
 		NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, nCmdShow); // Respects shortcut run settings

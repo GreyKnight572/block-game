@@ -6,9 +6,21 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM); // Window procedure
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR pCmdLine, int nCmdShow) {
 
-	WNDCLASSW wc; // Window class
-	HWND hwnd;	  // Window handle
-	MSG msg;	  // Current message
+	// Decide window title and icon
+	PWSTR wTitle = L"Physio";
+	HICON wIcon = LoadIcon(NULL, IDI_APPLICATION); // Default icon
+
+	// Decide window size and location
+	int cxScreen = GetSystemMetrics(SM_CXSCREEN); // Screen size - X
+	int cyScreen = GetSystemMetrics(SM_CYSCREEN); // Screen size - Y
+	int cxWindow = 1024; // Window size - X
+	int cyWindow = 768;	 // Window size - Y
+	int xWindow = (cxScreen - cxWindow) / 2; // Window location - X
+	int yWindow = (cyScreen - cyWindow) / 2; // Window location - Y
+
+	WNDCLASS wc; // Window class
+	HWND hWnd;	  // Window handle
+	MSG Msg;	  // Current message
 
 	// Register window class
 	wc.style		 = 0; // No paint on window resize
@@ -20,44 +32,39 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wc.lpszMenuName	 = NULL;
 	wc.lpfnWndProc	 = WndProc;
 	wc.hCursor		 = LoadCursor(NULL, IDC_ARROW); // Default cursor
-	wc.hIcon		 = LoadIcon(NULL, IDI_APPLICATION); // Default icon
-	RegisterClassW(&wc);
+	wc.hIcon		 = wIcon;
+	RegisterClass(&wc);
 
-	// Create the window
-	int scX = GetSystemMetrics(SM_CXSCREEN);
-	int scY = GetSystemMetrics(SM_CYSCREEN);
-	int szX = 1024;
-	int szY = 768;
-	int cnX = (scX - szX) / 2;
-	int cnY = (scY - szY) / 2;
-	hwnd = CreateWindowW(wc.lpszClassName, L"Physio",
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE, cnX, cnY, szX, szY, // Corner, size
+	// Initialize the window
+	hWnd = CreateWindow(wc.lpszClassName, wTitle,
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+		xWindow, yWindow, cxWindow, cyWindow,
 		NULL, NULL, hInstance, NULL);
-	ShowWindow(hwnd, nCmdShow); // Respects shortcut run settings
+	ShowWindow(hWnd, nCmdShow); // Respect shortcut "Run" setting
 
 	// Main loop
 	while (TRUE) {
 
 		// Message loop
-		while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
+		while (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE)) {
 
 			// Check for quit message
-			if (msg.message == WM_QUIT) {
+			if (Msg.message == WM_QUIT) {
 
 				// Set application exit code and quit
-				return msg.wParam;
+				return Msg.wParam;
 			}
 
 			// Dispatch message to window procedure
-			DispatchMessage(&msg);
+			DispatchMessage(&Msg);
 		}
 	}
 }
 
 // Window procedure
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
 
-	switch(msg) {
+	switch(Msg) {
 
 		// Window closed
 		case WM_DESTROY:
@@ -66,5 +73,5 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	}
 
 	// Process message with default window procedure
-	return DefWindowProcW(hwnd, msg, wParam, lParam);
+	return DefWindowProc(hWnd, Msg, wParam, lParam);
 }

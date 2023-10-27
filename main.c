@@ -24,8 +24,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	RegisterClassW(&wc);
 
 	// Create the window
+	int scX = GetSystemMetrics(SM_CXSCREEN);
+	int scY = GetSystemMetrics(SM_CYSCREEN);
+	int szX = 1024;
+	int szY = 768;
+	int cnX = (scX - szX) / 2;
+	int cnY = (scY - szY) / 2;
 	hwnd = CreateWindowW(wc.lpszClassName, L"Block Game",
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 350, 250, // Corner, size
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE, cnX, cnY, szX, szY, // Corner, size
 		NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, nCmdShow); // Respects shortcut run settings
 

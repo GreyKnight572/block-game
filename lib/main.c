@@ -1,14 +1,14 @@
 #include <windows.h> // Win32 API
 
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM); // Window procedure
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 // Entry point
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR pCmdLine, int nCmdShow) {
 
 	// Decide window title and icon
-	PWSTR wTitle = L"Physio";
-	HICON wIcon = LoadIcon(NULL, IDI_APPLICATION); // Default icon
+	PWSTR wTitle = L"Physio"; // Window title
+	HICON wIcon = LoadIconW(NULL, IDI_APPLICATION); // Default icon
 
 	// Decide window size and location
 	int cxScreen = GetSystemMetrics(SM_CXSCREEN); // Screen size - X
@@ -31,12 +31,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wc.hbrBackground = NULL; // No background brush
 	wc.lpszMenuName	 = NULL;
 	wc.lpfnWndProc	 = WndProc;
-	wc.hCursor		 = LoadCursor(NULL, IDC_ARROW); // Default cursor
+	wc.hCursor		 = LoadCursorW(NULL, IDC_ARROW); // Default cursor
 	wc.hIcon		 = wIcon;
-	RegisterClass(&wc);
+	RegisterClassW(&wc);
 
 	// Initialize the window
-	hWnd = CreateWindow(wc.lpszClassName, wTitle,
+	hWnd = CreateWindowW(wc.lpszClassName, wTitle,
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
 		xWindow, yWindow, cxWindow, cyWindow,
 		NULL, NULL, hInstance, NULL);
@@ -46,7 +46,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	while (TRUE) {
 
 		// Message loop
-		while (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE)) {
+		while (PeekMessageW(&Msg, NULL, 0, 0, PM_REMOVE)) {
 
 			// Check for quit message
 			if (Msg.message == WM_QUIT) {
@@ -56,7 +56,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			}
 
 			// Dispatch message to window procedure
-			DispatchMessage(&Msg);
+			DispatchMessageW(&Msg);
 		}
 	}
 }
@@ -64,14 +64,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 // Window procedure
 LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
 
-	switch(Msg) {
+	// Check for window destroyed message
+	if (Msg == WM_DESTROY) {
 
-		// Window closed
-		case WM_DESTROY:
-		PostQuitMessage(0); // Posts WM_QUIT with exit code
-		break;
+		// Post WM_QUIT with exit code
+		PostQuitMessage(0);
 	}
 
 	// Process message with default window procedure
-	return DefWindowProc(hWnd, Msg, wParam, lParam);
+	return DefWindowProcW(hWnd, Msg, wParam, lParam);
 }

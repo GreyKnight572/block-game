@@ -1,1 +1,1 @@
-add_executable(Physio WIN32 main.c)
+add_executable(Physio WIN32 src/windows/main.c)

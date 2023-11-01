@@ -1,3 +1,5 @@
+### ====================  WINDOWS OS LIBRARY  ==================== ###
+
 if (WIN32)
 
 add_library(WindowsBase STATIC src/windows/window.c src/windows/message.c)
@@ -5,13 +7,15 @@ target_include_directories(WindowsBase PRIVATE include/windows)
 
 endif (WIN32)
 
-if (UNIX)
+### =====================  POSIX OS LIBRARY  ===================== ###
 
-# Build POSIX base libraries
+if (UNIX)
 
 endif (UNIX)
 
-# Build game libraries
+### ======================  ENGINE LIBRARY  ====================== ###
+
+### ====================  WINDOWS EXECUTABLE  ==================== ###
 
 if (WIN32)
 
@@ -21,8 +25,8 @@ target_link_libraries(Physio WindowsBase)
 
 endif (WIN32)
 
-if (UNIX)
+### =====================  POSIX EXECUTABLE  ===================== ###
 
-# Build executable for POSIX
+if (UNIX)
 
 endif (UNIX)

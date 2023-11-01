@@ -1,8 +1,10 @@
 #include "window.h"
-#include "message.h"
 
 HINSTANCE instanceHandle = NULL;
 HWND mainWindowHandle = NULL;
+
+LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
+	WPARAM wordParameter, LPARAM longParameter);
 
 void InitializeMainWindow(LPCSTR windowTitle,
 	int windowWidth, int windowHeight, int showState) {
@@ -39,4 +41,17 @@ void InitializeMainWindow(LPCSTR windowTitle,
 		windowPositionX, windowPositionY, windowWidth, windowHeight,
 		FALSE);
 	ShowWindow(mainWindowHandle, showState);
+}
+
+LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
+	WPARAM wordParameter, LPARAM longParameter) {
+
+	switch (message) {
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	}
+
+	return DefWindowProcA(windowHandle, message, wordParameter, longParameter);
 }

@@ -1,4 +1,9 @@
-void* CreateMainWindow(void* instanceHandle, int windowWidth, int windowHeight,
-	char* windowTitle);
+#ifndef INCLUDE_GUARD_WINDOW_H
+#define INCLUDE_GUARD_WINDOW_H
 
-void SetShowState(void* windowHandle, int showState);
+#include <windows.h>
+
+void SetMainWindow(LPCSTR windowTitle,
+	int windowWidth, int windowHeight, int showState);
+
+#endif

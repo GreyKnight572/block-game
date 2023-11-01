@@ -1,8 +1,9 @@
-#ifndef WINDOWS_BASE_PUBLIC
+#ifndef INCLUDE_GUARD_MESSAGE_H
+#define INCLUDE_GUARD_MESSAGE_H
 
-long long HandleMessage(void* windowHandle, unsigned int message,
-	unsigned long long wordParameter, long long longParameter);
+#include <windows.h>
+
+LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
+	WPARAM wordParameter, LPARAM longParameter);
 
 #endif
-
-int MessageLoopTODO(void);

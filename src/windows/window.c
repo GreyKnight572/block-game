@@ -1,35 +1,42 @@
-#include <windows.h>
-
 #include "window.h"
 #include "message.h"
 
-void* CreateMainWindow(void* instanceHandle, int windowWidth, int windowHeight,
-	char* windowTitle) {
+HINSTANCE instanceHandle = NULL;
+HWND mainWindowHandle = NULL;
+
+void SetMainWindow(LPCSTR windowTitle,
+	int windowWidth, int windowHeight, int showState) {
 
 	int screenWidth, screenHeight, windowPositionX, windowPositionY;
 	WNDCLASSA windowClass = {0};
-	void* windowhandle = 0;
+
+	if (!instanceHandle) {
+
+		GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+			NULL, instanceHandle);
+	}
 
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
 	windowPositionX = (screenWidth - windowWidth) / 2;
 	windowPositionY = (screenHeight - windowHeight) / 2;
 
-	windowClass.lpszClassName = "MainWindow";
-	windowClass.hInstance = instanceHandle;
-	windowClass.lpfnWndProc = HandleMessage;
-	windowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
+	if (!mainWindowHandle) {
 
-	RegisterClassA(&windowClass);
-	windowhandle = CreateWindowExA(0, windowClass.lpszClassName, windowTitle,
-		WS_OVERLAPPEDWINDOW,
+		windowClass.lpszClassName = "MainWindow";
+		windowClass.hInstance = instanceHandle;
+		windowClass.lpfnWndProc = MainWindowProcedure;
+		windowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
+		RegisterClassA(&windowClass);
+
+		mainWindowHandle = CreateWindowExA(FALSE, windowClass.lpszClassName,
+			windowTitle, WS_OVERLAPPEDWINDOW,
+			windowPositionX, windowPositionY, windowWidth, windowHeight,
+			NULL, NULL, instanceHandle, NULL);
+	}
+
+	SetWindowPos(mainWindowHandle, HWND_TOP,
 		windowPositionX, windowPositionY, windowWidth, windowHeight,
-		0, 0, instanceHandle, 0);
-
-	return windowhandle;
-}
-
-void SetShowState(void* windowHandle, int showState) {
-
-	ShowWindow(windowHandle, showState);
+		FALSE);
+	ShowWindow(mainWindowHandle, showState);
 }

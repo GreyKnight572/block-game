@@ -15,7 +15,7 @@ endif (UNIX)
 
 if (WIN32)
 
-add_executable(Physio WIN32 src/windows/main.c)
+add_executable(Physio WIN32 src/main.c)
 target_include_directories(Physio PRIVATE include/windows)
 target_link_libraries(Physio WindowsBase)
 

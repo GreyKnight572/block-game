@@ -1,30 +1,14 @@
-#include <windows.h>
-
 #include "message.h"
 
-long long HandleMessage(void* windowHandle, unsigned int message,
-	unsigned long long wordParameter, long long longParameter) {
+LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
+	WPARAM wordParameter, LPARAM longParameter) {
 
-	if (message == WM_DESTROY) {
+	switch (message) {
 
+	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
 	}
 
 	return DefWindowProcA(windowHandle, message, wordParameter, longParameter);
-}
-
-void HandleMessages(void) {
-
-	MSG* message;
-
-	while (PeekMessageA(message, NULL, 0, 0, PM_REMOVE)) {
-
-		switch ((*message).message) {
-
-			case WM_QUIT:
-			return (int) message->wParam;
-		}
-
-		DispatchMessageA(message);
-	}
 }

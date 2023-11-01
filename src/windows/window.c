@@ -13,7 +13,7 @@ LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
 
 void MessageLoop(void);
 
-void InitializeMainWindow(char* windowTitle,
+void SetMainWindow(char* windowTitle,
 	int windowWidth, int windowHeight, int showState) {
 
 	int screenWidth, screenHeight, windowPositionX, windowPositionY;
@@ -82,7 +82,7 @@ void MessageLoop(void) {
 	_endthreadex(0);
 }
 
-int MessageLoopActive(void) {
+int MainWindowOpen(void) {
 
 	if (messageLoopHandle) {
 

@@ -1,9 +1,9 @@
 #ifndef INCLUDE_GUARD_WINDOW_H
 #define INCLUDE_GUARD_WINDOW_H
 
-void InitializeMainWindow(char* windowTitle,
+void SetMainWindow(char* windowTitle,
 	int windowWidth, int windowHeight, int showState);
 
-int MessageLoopActive(void);
+int MainWindowOpen(void);
 
 #endif

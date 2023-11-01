@@ -13,7 +13,7 @@ void SetMainWindow(LPCSTR windowTitle,
 	if (!instanceHandle) {
 
 		GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-			NULL, instanceHandle);
+			NULL, &instanceHandle);
 	}
 
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);

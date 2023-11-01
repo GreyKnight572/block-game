@@ -2,7 +2,7 @@
 
 if (WIN32)
 
-add_library(WindowsBase STATIC src/windows/window.c src/windows/message.c)
+add_library(WindowsBase STATIC src/windows/window.c)
 target_include_directories(WindowsBase PRIVATE include/windows)
 
 endif (WIN32)

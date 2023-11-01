@@ -1,9 +1,9 @@
 #ifndef INCLUDE_GUARD_WINDOW_H
 #define INCLUDE_GUARD_WINDOW_H
 
-#include <windows.h>
-
-void InitializeMainWindow(LPCSTR windowTitle,
+void InitializeMainWindow(char* windowTitle,
 	int windowWidth, int windowHeight, int showState);
+
+int MessageLoopActive(void);
 
 #endif

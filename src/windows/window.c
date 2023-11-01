@@ -1,12 +1,19 @@
+#include <windows.h>
+#include <process.h>
+
 #include "window.h"
 
 HINSTANCE instanceHandle = NULL;
 HWND mainWindowHandle = NULL;
+HANDLE messageLoopHandle = NULL;
+WPARAM quitMessageCode = 0;
 
 LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
 	WPARAM wordParameter, LPARAM longParameter);
 
-void InitializeMainWindow(LPCSTR windowTitle,
+void MessageLoop(void);
+
+void InitializeMainWindow(char* windowTitle,
 	int windowWidth, int windowHeight, int showState) {
 
 	int screenWidth, screenHeight, windowPositionX, windowPositionY;
@@ -35,6 +42,9 @@ void InitializeMainWindow(LPCSTR windowTitle,
 			windowTitle, WS_OVERLAPPEDWINDOW,
 			windowPositionX, windowPositionY, windowWidth, windowHeight,
 			NULL, NULL, instanceHandle, NULL);
+
+		messageLoopHandle = (HANDLE) _beginthreadex(NULL, 0,
+			(void*) MessageLoop, NULL, FALSE, NULL);
 	}
 
 	SetWindowPos(mainWindowHandle, HWND_TOP,
@@ -49,9 +59,38 @@ LRESULT CALLBACK MainWindowProcedure(HWND windowHandle, UINT message,
 	switch (message) {
 
 	case WM_DESTROY:
+		mainWindowHandle = NULL;
 		PostQuitMessage(0);
 		break;
 	}
 
 	return DefWindowProcA(windowHandle, message, wordParameter, longParameter);
+}
+
+void MessageLoop(void) {
+
+	MSG message;
+
+	while (GetMessageA(&message, mainWindowHandle, 0, 0)) {
+
+		DispatchMessageA(&message);
+	}
+
+	quitMessageCode = message.wParam;
+	CloseHandle(messageLoopHandle);
+	messageLoopHandle = NULL;
+	_endthreadex(0);
+}
+
+int MessageLoopActive(void) {
+
+	if (messageLoopHandle) {
+
+		return 1;
+	}
+
+	else {
+
+		return 0;
+	}
 }

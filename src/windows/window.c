@@ -4,7 +4,7 @@
 HINSTANCE instanceHandle = NULL;
 HWND mainWindowHandle = NULL;
 
-void SetMainWindow(LPCSTR windowTitle,
+void InitializeMainWindow(LPCSTR windowTitle,
 	int windowWidth, int windowHeight, int showState) {
 
 	int screenWidth, screenHeight, windowPositionX, windowPositionY;

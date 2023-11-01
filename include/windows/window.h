@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-void SetMainWindow(LPCSTR windowTitle,
+void InitializeMainWindow(LPCSTR windowTitle,
 	int windowWidth, int windowHeight, int showState);
 
 #endif

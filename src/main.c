@@ -1,5 +1,7 @@
 #include <windows.h>
 
+#include "log.h"
+
 LRESULT CALLBACK WindowProcedure(HWND windowHandle, UINT message,
 	WPARAM wordParameter, LPARAM longParameter);
 
@@ -40,6 +42,9 @@ int WINAPI WinMain(HINSTANCE instanceHandle, HINSTANCE previousHandle,
 		windowPositionX, windowPositionY, windowWidth, windowHeight,
 		NULL, NULL, instanceHandle, NULL);
 	ShowWindow(windowHandle, showCommand);
+
+	// TEMP: Test logging functionality
+	LogMessage("Hello, world!");
 
 	while (GetMessageA(&message, NULL, FALSE, FALSE)) {
 

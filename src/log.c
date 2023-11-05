@@ -5,19 +5,9 @@ FILE* logFile = NULL;
 
 void LogMessage(char* message) {
 
-	char* logFilePath;
-
 	if (!logFile) {
 
-		#define MAX_STRING_LENGTH 64
-
-		logFilePath = malloc(MAX_STRING_LENGTH * sizeof(char));
-
-		// TODO: Change filename to Physio_YYYY-MM-DD_HH-MM-SS.txt
-		GetLogFilePath(logFilePath, MAX_STRING_LENGTH, "Physio (", ").txt");
-		GetLogFile(&logFile, logFilePath);
-
-		free(logFilePath);
+		StartLogFile();
 
 		if (!logFile) {
 
@@ -28,52 +18,28 @@ void LogMessage(char* message) {
 	fprintf(logFile, "%s\n", message);
 }
 
-void GetLogFile(FILE** logFile, char* filePath) {
+void StartLogFile(void) {
+
+	#define FILE_PATH_LENGTH 64
+
+	time_t dateTimeRaw;
+	struct tm dateTimeTM;
+	char logFilePath[FILE_PATH_LENGTH];
 
 	if (!PathFileExistsA(LOG_FOLDER)) {
 
 		CreateDirectoryA(LOG_FOLDER, NULL);
 	}
 
-	fopen_s(logFile, filePath, "w");
-}
+	time(&dateTimeRaw);
+	localtime_s(&dateTimeTM, &dateTimeRaw);
 
-void GetLogFilePath(char* logFilePath, int maxLength,
-	char* prefix, char* suffix) {
+	sprintf_s(logFilePath, FILE_PATH_LENGTH,
+		"%s\\Physio_%04d-%02d-%02d_%02d-%02d-%02d.txt", LOG_FOLDER,
+		dateTimeTM.tm_year + 1900, dateTimeTM.tm_mon, dateTimeTM.tm_mday,
+		dateTimeTM.tm_hour, dateTimeTM.tm_min, dateTimeTM.tm_sec);
 
-	time_t currentDateTime;
-	char* dateTimeStringRaw;
-	char* dateTimeStringClean;
+	fopen_s(&logFile, logFilePath, "w");
 
-	dateTimeStringRaw = malloc(maxLength * sizeof(char));
-	dateTimeStringClean = malloc(maxLength * sizeof(char));
-
-	time(&currentDateTime);
-	ctime_s(dateTimeStringRaw, maxLength, &currentDateTime);
-
-	// TODO: Format date-time to YYYY-MM-DD_HH-MM-SS
-	for (int i = 0; i < maxLength; i++) {
-
-		switch (dateTimeStringRaw[i]) {
-
-			case ':':
-			dateTimeStringClean[i] = '-';
-			break;
-
-			case '\n':
-			case '\0':
-			dateTimeStringClean[i] = '\0';
-			i = maxLength;
-			break;
-
-			default:
-			dateTimeStringClean[i] = dateTimeStringRaw[i];
-		}
-	}
-
-	sprintf_s(logFilePath, maxLength, "%s\\%s%s%s",
-		LOG_FOLDER, prefix, dateTimeStringClean, suffix);
-
-	free(dateTimeStringRaw);
-	free(dateTimeStringClean);
+	#undef FILE_PATH_LENGTH
 }

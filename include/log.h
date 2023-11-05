@@ -11,9 +11,6 @@
 
 void LogMessage(char* message);
 
-void GetLogFile(FILE** logFile, char* filePath);
-
-void GetLogFilePath(char* logFilePath, int maxLength,
-	char* prefix, char* suffix);
+void StartLogFile(void);
 
 #endif

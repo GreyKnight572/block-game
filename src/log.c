@@ -1,6 +1,5 @@
 #include "log.h"
 
-// TODO: Enable live monitoring of log file by another process
 FILE* logFile = NULL;
 FILE* latestLogFile = NULL;
 
@@ -18,6 +17,7 @@ void LogMessage(char* message) {
 
 	fprintf(logFile, "%s\n", message);
 	fprintf(latestLogFile, "%s\n", message);
+	OutputDebugStringA(message);
 }
 
 void StartLogFile(void) {

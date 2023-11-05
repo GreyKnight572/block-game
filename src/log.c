@@ -2,6 +2,7 @@
 
 // TODO: Enable live monitoring of log file by another process
 FILE* logFile = NULL;
+FILE* latestLogFile = NULL;
 
 void LogMessage(char* message) {
 
@@ -16,6 +17,7 @@ void LogMessage(char* message) {
 	}
 
 	fprintf(logFile, "%s\n", message);
+	fprintf(latestLogFile, "%s\n", message);
 }
 
 void StartLogFile(void) {
@@ -25,6 +27,7 @@ void StartLogFile(void) {
 	time_t dateTimeRaw;
 	struct tm dateTimeTM;
 	char logFilePath[FILE_PATH_LENGTH];
+	char latestLogFilePath[FILE_PATH_LENGTH];
 
 	if (!PathFileExistsA(LOG_FOLDER)) {
 
@@ -38,8 +41,11 @@ void StartLogFile(void) {
 		"%s\\Physio_%04d-%02d-%02d_%02d-%02d-%02d.txt", LOG_FOLDER,
 		dateTimeTM.tm_year + 1900, dateTimeTM.tm_mon, dateTimeTM.tm_mday,
 		dateTimeTM.tm_hour, dateTimeTM.tm_min, dateTimeTM.tm_sec);
+	sprintf_s(latestLogFilePath, FILE_PATH_LENGTH,
+		"%s\\Physio_latest.txt", LOG_FOLDER);
 
 	fopen_s(&logFile, logFilePath, "w");
+	fopen_s(&latestLogFile, latestLogFilePath, "w");
 
 	#undef FILE_PATH_LENGTH
 }
